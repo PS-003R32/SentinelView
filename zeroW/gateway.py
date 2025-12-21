@@ -9,7 +9,7 @@ SERIAL_PORT='/dev/serial0'
 BAUD_RATE=9600
 DEVICE_ID='RPI-ZERO-SEC-01'
 
-DB_URI = "postgresql://postgres:190503@db.qhzlenfzebrrahmnngty.supabase.co:5432/postgres"
+DB_URI = "postgresql://postgres:@db."
 
 def get_db_connection():
   try:
