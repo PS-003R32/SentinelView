@@ -41,3 +41,45 @@ except Exception as e:
     sys.exit(1)
 
 print("System Active. Waiting for attacks...")
+
+while True:
+    if ser.in_waiting:
+        try:
+            line = ser.readline().decode('utf-8').strip()
+            if not line.startswith("{"): continue
+            
+            data = json.loads(line)
+            threat = data.get("threat", "Unknown")
+            risk = data.get("risk", 0)
+            
+            print(f"\nINTRUSION DETECTED: {threat} (Risk: {risk})")
+            
+            print("   -> Sending to Cloud...", end=" ")
+            try:
+                params = {'device': DEVICE_ID, 'threat': threat, 'risk': risk}
+                requests.get(WEBHOOK_URL, params=params, timeout=5)
+                print("OK")
+            except Exception as e:
+                print(f"FAILED ({e})")
+
+            print("   -> Logging to Database...", end=" ")
+            try:
+                conn = psycopg2.connect(
+                    host=DB_HOST, database=DB_NAME, user=DB_USER, 
+                    password=DB_PASS, port=DB_PORT, sslmode='require'
+                )
+                cur = conn.cursor()
+                cur.execute(
+                    "INSERT INTO telemetry (device_id, threat_detected, risk_score) VALUES (%s, %s, %s)", 
+                    (DEVICE_ID, threat, risk)
+                )
+                conn.commit()
+                conn.close()
+                print("OK")
+            except Exception as e:
+                print(f"FAILED ({e})")
+
+        except Exception as e:
+            print(f"Error: {e}")
+            
+    time.sleep(0.01)
