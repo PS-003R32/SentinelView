@@ -4,60 +4,40 @@ import json
 import psutil
 import psycopg2
 from datetime import datetime
+import sys
+import serial.tools.list_ports
+import requests
 
-SERIAL_PORT='/dev/serial0'
-BAUD_RATE=9600
-DEVICE_ID='RPI-ZERO-SEC-01'
+WEBHOOK_URL = "https://hook.eu1.make.com/" #you insert yoursd
 
-DB_URI = "postgresql://postgres:@db."
+DB_HOST = "aws-x-xx-xxxxxxxx-1.xxxxx.supabase.com"#you insert yoursd
+DB_PORT = "xxxx"#you insert yoursd, usualy 6543
+DB_NAME = "xxxxxxx"#you insert yoursd
+DB_USER = "postgres.xxxxxxxxxxxx"#you insert yoursd
+DB_PASS = "passwd"#you insert yoursd 
 
-def get_db_connection():
-  try:
-    conn = psycopg2.connect(DB_URI)
-    return conn
-  except Exception as e:
-    print(f"DB Connection Error: {e}")
+DEVICE_ID = "SENTINEL-ZERO-01"
+
+print(f"Sentinel Gateway Starting...")
+
+def find_pico():
+    ports = serial.tools.list_ports.comports()
+    for p in ports:
+        if "ACM" in p.device or "USB" in p.device: return p.device
     return None
-def calculate_risk(threat, cpu):
-    base_score = 0
-    if threat == "Syn Scan": base_score = 30
-    elif threat == "SSH Brute Force": base_score = 60
-    elif threat == "Malware Beacon": base_score = 90
 
-    cpu_factor = 10 if cpu > 80 else 0
-    return min(100, base_score + cpu_factor)
-def main():
-   print("Starting Gateway...")
-   ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
-   current_threat = "None"
+port = find_pico()
+if not port:
+    print("Error: No Pico found. Check USB cable.")
+    sys.exit(1)
 
-   while True:
-      try:
-        if ser.in_waiting > 0:
-          line=ser.readline().decode('utf-8').strip()
-          try:
-            data = json.loads(line)
-            current_threat = data.get("threat", "None")
-            print(f"Update recieved: {current_threat}")
-          except json.JSONDecodeError:
-            pass
-        cpu=psutil.cpu_percent(interval=None)
-        ram = psutil.virtual_memory().percent
-        risk = calculate_risk(current_threat, cpu)
+print(f"Connecting to Pico at {port}...")
 
-        conn = get_db_connection()
-        if conn:
-          cur= conn.cursor()
-          cur.execute("""
-                      INSERT INTU telemetry (device_id, cpu_usage, ram_usage, threat_detected, risk_score) VALUES (%s,%s,%s,%s,%s)""", (DEVICE_ID, cpu,ram, current_threat, risk))
-          conn.commit()
-          cur.close()
-          conn.close()
-          print(f"Logged: {current_threat} | Risk: {risk}")
-        time.sleep(2)
-      except Exception as e:
-        print(f"Loop Error: {e}")
-        time.sleep(1)
-if __name__=='__main__':
-  main()
-         
+try:
+    ser = serial.Serial(port, 115200, timeout=1)
+    ser.flush()
+except Exception as e:
+    print(f"Access Denied: {e}")
+    sys.exit(1)
+
+print("System Active. Waiting for attacks...")
