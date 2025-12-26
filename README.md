@@ -7,7 +7,7 @@
 ```text
 ├── firmware/
 │   ├── main.py          # logic for Raspberry Pi Pico (Edge sensor)
-│   └── ssd1306.py       # OLED Display Driver
+│   └── ssd1306.py       # OLED Display Driver, you can install inside Thony(this is just for reference)
 ├── gateway/
 │   └── gateway.py       # Python Service for Raspberry Pi Zero W (Bridge)
 ├── tableau/
@@ -64,4 +64,5 @@ Create a new Scenario in [Make.com](https://www.make.com/en/login).
 Trigger: Add a Webhooks > Custom Webhook. Copy the URL (e.g., https://hook.eu1.make.com/...).
 - Action 1: Slack > Create a Message. Map threat and risk to the message text.
 - Action 2: Salesforce > Create a Record (Object: Case). Map fields to create an incident ticket.
-Important: Turn the "Scheduling" toggle to ON to ensure it runs automatically.
+
+**Important: Turn the "Scheduling" toggle to ON to ensure it runs automatically.**
