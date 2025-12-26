@@ -2,7 +2,7 @@
 **Sentinel** is a "Digital Nervous System" for network security. It bridges the gap between physical threat detection and enterprise response. By connecting a custom hardware edge device (Raspberry Pi Pico) to a cloud ecosystem, Sentinel turns a physical threat signature into an immediate Slack alert, a Salesforce incident ticket, and a live Tableau visualization in under 2 seconds.
 
 ---
-## 📂 Repository Structure
+## Repository Structure
 
 ```text
 ├── firmware/
