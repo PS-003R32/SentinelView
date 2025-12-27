@@ -136,11 +136,11 @@ SSL: Check "Require SSL".
 Drag created_at to Columns (Right-click -> Exact Date).
 Drag risk_score to Rows.
 Drag threat_detected to Color.
-Go Live: Click the Refresh bata source button inside the toolbar to see new attacks appear instantly (F5 shortcut key).
+Go Live: Click the Refresh datasource button from the toolbar to see new attacks instantly.
 ```
 
 ---
-#### Video demonstration
+### Video demonstration
 You can check out the video demonstration of this project on YouTube [here](https://youtu.be/8qDUs-2xxes)
 
 ---
@@ -157,5 +157,5 @@ Q: Slack alerts work, but Tableau doesn't update.
 A: Check your Python script output. If it says DB Logged, the data is there. In Tableau, you must hit the Refresh Data Source button (F5) manually to fetch the latest rows.
 
 ---
-## License
+## LICENSE
 This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
