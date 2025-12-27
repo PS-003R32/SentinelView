@@ -55,7 +55,7 @@ CREATE TABLE telemetry (
 );
 ```
 **Supabase database table:** <br>
-<p align-"center">
+<p align="center">
 <img width="1866" height="1104" alt="image" src="https://github.com/user-attachments/assets/8ee50a86-28ba-4b3a-b1d0-17a0ea0108ee" />
 </p>
 
@@ -72,7 +72,7 @@ Trigger: Add a Webhooks > Custom Webhook. Copy the URL (e.g., https://hook.eu1.m
 **[Important: Turn the "Scheduling" toggle to ON to ensure it runs automatically.]**<br>
 
 **It should look something like this:** <br>
-<p align-"center">
+<p align="center">
 <img width="1918" height="1097" alt="make" src="https://github.com/user-attachments/assets/3ef3c59e-bc98-476f-9202-67fc80e2ce4d" />
 </p>
 
@@ -84,10 +84,11 @@ Trigger: Add a Webhooks > Custom Webhook. Copy the URL (e.g., https://hook.eu1.m
 - Keypad Cols (C1-C4): GP5, GP4, GP3, GP2.<br>
 
 **Hardware setup:**
-<p align-"center">
+<p align="center">
 <img src="https://github.com/user-attachments/assets/5a1fd2fa-1661-4aa6-b945-e38127879f04" alt="image" width="600" />
 </p>
-**Flashing the Firmware:**
+
+**Flashing the Firmware:** <br>
 Connect the Raspberry Pi Pico to your computer holding the bootsel button.
 Open Thonny IDE configure the interpreter and install the `ssd1306` driver from the manage packages tab.
 Upload the contents of the firmware/ folder (main.py and ssd1306.py) to the Pico.
@@ -137,6 +138,10 @@ Drag risk_score to Rows.
 Drag threat_detected to Color.
 Go Live: Click the Refresh bata source button inside the toolbar to see new attacks appear instantly (F5 shortcut key).
 ```
+
+---
+#### Video demonstration
+You can check out the video demonstration of this project on YouTube [here](https://youtu.be/8qDUs-2xxes)
 
 ---
 # Troubleshooting
