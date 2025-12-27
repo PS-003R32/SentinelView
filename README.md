@@ -54,6 +54,11 @@ CREATE TABLE telemetry (
     risk_score INT
 );
 ```
+**Supabase database table:** <br>
+<p align-"center">
+<img width="1866" height="1104" alt="image" src="https://github.com/user-attachments/assets/8ee50a86-28ba-4b3a-b1d0-17a0ea0108ee" />
+</p>
+
 **Critical** for Tableau: Go to Project Settings > Database > Connection Parameters.
 Host: Copy the "Pooler" URL (e.g., aws-1-ap-southeast-1.pooler.supabase.com).
 Port: You MUST use port 6543 (Transaction Pooler). The default 5432 will not work with Tableau live connections.
@@ -63,9 +68,13 @@ Password: Use the database password.
 Create a new Scenario in [Make.com](https://www.make.com/en/login).
 Trigger: Add a Webhooks > Custom Webhook. Copy the URL (e.g., https://hook.eu1.make.com/...).
 - Action 1: Slack > Create a Message. Map threat and risk to the message text.
-- Action 2: Salesforce > Create a Record (Object: Case). Map fields to create an incident ticket.
+- Action 2: Salesforce > Create a Record (Object: Case). Map fields to create an incident ticket.<br>
+**[Important: Turn the "Scheduling" toggle to ON to ensure it runs automatically.]**<br>
 
-**[Important: Turn the "Scheduling" toggle to ON to ensure it runs automatically.]**
+**It should look something like this:** <br>
+<p align-"center">
+<img width="1918" height="1097" alt="make" src="https://github.com/user-attachments/assets/3ef3c59e-bc98-476f-9202-67fc80e2ce4d" />
+</p>
 
 ---
 # Phase 2: Hardware Configuration (The Edge)
@@ -74,6 +83,10 @@ Trigger: Add a Webhooks > Custom Webhook. Copy the URL (e.g., https://hook.eu1.m
 - Keypad Rows (R1-R4): GP6, GP7, GP8, GP9.
 - Keypad Cols (C1-C4): GP5, GP4, GP3, GP2.<br>
 
+**Hardware setup:**
+<p align-"center">
+<img src="https://github.com/user-attachments/assets/5a1fd2fa-1661-4aa6-b945-e38127879f04" alt="image" width="600" />
+</p>
 **Flashing the Firmware:**
 Connect the Raspberry Pi Pico to your computer holding the bootsel button.
 Open Thonny IDE configure the interpreter and install the `ssd1306` driver from the manage packages tab.
@@ -85,10 +98,10 @@ Run the script to verify the OLED screen turns on and displays the SentinelView 
 The Raspberry Pi Zero W runs a Python service to bridge the USB serial data to the Cloud API.
 
 #### 1. System Prep
-Run these commands on the Pi Zero terminal to install drivers and unlock the USB port:
+Run these commands on the Pi Zero terminal to install drivers and unlock the USB port:<br>
 
-sudo apt update
-sudo apt install python3-serial python3-requests python3-psycopg2 -y
+`sudo apt update`<br>
+`sudo apt install python3-serial python3-requests python3-psycopg2 -y`<br>
 **[Fix: Disable ModemManager which often blocks the Pico USB port:]**
 ```bash
 sudo systemctl stop ModemManager
@@ -109,7 +122,7 @@ sudo python3 gateway.py
 ---
 # Phase 4: Data Visualization (The Action)
 - Open Tableau Desktop.
-- Connect to Data: Select PostgreSQL.
+- Connect to Data: Select PostgreSQL. You might have to install drivers which can be downloaded from the Tableau website.
 - Enter Details:
 ```text
 Server: Use the Supabase Pooler URL (from Phase 1).
